@@ -101,6 +101,40 @@ namespace ApiService
                 return response.Content;
             }
         }
+
+        /// <summary>
+        /// Performs an asynchronous call to the passed method name. 
+        /// </summary>
+        /// <param name="methodName">Method to call</param>
+        /// <param name="parameters">List of the query parameters</param>
+        /// <returns>HttpContent</returns>
+        public async Task<HttpResponseMessage> CallWebApiAsync(string methodName, List<ApiServiceParameter> parameters = null)
+        {
+            var httpClient = new HttpClient();
+
+            if (string.IsNullOrWhiteSpace(ServiceUri)) return null;
+
+            string uri = ServiceUri + methodName;
+
+            if (parameters != null && parameters.Count > 0)
+            {
+                uri += "?";
+
+                foreach (var apiServiceParameter in parameters)
+                {
+                    uri += apiServiceParameter.ToString() + "&";
+                }
+
+                if (uri[uri.Length - 1] == '&')
+                {
+                    uri = uri.Substring(0, uri.Length - 1);
+                }
+            }
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, uri);
+            var response = await httpClient.SendAsync(request);
+            return response;
+        }
     }
 
 

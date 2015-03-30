@@ -29,17 +29,14 @@ namespace ApiService.Test
             parameters.Add(new ApiServiceParameter { ParamName = "ZIP", ParamValue = "10001" });
 
             var res = CallWebApiSync(methodName, parameters);
-
-            if (res != null)
-            {
-                var apiResult = res.ReadAsStringAsync().Result;
+            Assert.IsNotNull(res);
+            
+            var apiResult = res.ReadAsStringAsync().Result;
                 
-                bool containsNewYork = apiResult.Contains("New York");
+            bool containsNewYork = apiResult.Contains("New York");
 
-                Assert.IsNotNull(apiResult);
-                Assert.AreEqual(true,containsNewYork);
-            }
-
+            Assert.IsNotNull(apiResult);
+            Assert.AreEqual(true,containsNewYork);
         }
 
         [TestMethod]
@@ -63,16 +60,13 @@ namespace ApiService.Test
 
             var res = CallWebApiSync(methodName, httpClientHandler, parameters);
 
-            if (res != null)
-            {
-                var apiResult = res.ReadAsStringAsync().Result;
-                
-                bool containsNewYork = apiResult.Contains("New York");
+            Assert.IsNotNull(res);
+            var apiResult = res.ReadAsStringAsync().Result;
+            
+            bool containsNewYork = apiResult.Contains("New York");
 
-                Assert.IsNotNull(apiResult);
-                Assert.AreEqual(true,containsNewYork);
-            }
-
+            Assert.IsNotNull(apiResult);
+            Assert.AreEqual(true,containsNewYork);
         }
 
     }
